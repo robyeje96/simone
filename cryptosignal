@@ -1,0 +1,12 @@
+import React, { useEffect, useState } from "react"; import Head from "next/head";
+
+export default function Home() { const [signals, setSignals] = useState([]); const [loading, setLoading] = useState(true);
+
+useEffect(() => { const fetchSignals = async () => { try { const res = await fetch("/api/signals"); const data = await res.json(); setSignals(data); setLoading(false); } catch (err) { console.error("Errore nel recupero segnali:", err); setLoading(false); } }; fetchSignals(); }, []);
+
+return ( <> <Head> <title>Crypto Signal AI</title> <meta name="description" content="Segnali cripto generati da IA, gratuiti e aggiornati 24/7" /> </Head> <main className="p-4 max-w-3xl mx-auto"> <h1 className="text-3xl font-bold mb-4 text-center">Segnali Crypto AI 📈</h1> {loading ? ( <p>Caricamento segnali...</p> ) : ( <ul className="space-y-4"> {signals.map((sig, i) => ( <li key={i} className="border p-4 rounded-xl shadow-md"> <h2 className="text-xl font-semibold">{sig.asset} - {sig.tipo}</h2> <p><strong>Entry:</strong> {sig.entry}</p> <p><strong>SL:</strong> {sig.stop_loss}</p> <p><strong>TP:</strong> {sig.take_profit.join(" / ")}</p> <p><strong>Motivo:</strong> {sig.motivazione}</p> </li> ))} </ul> )} </main> </> ); }
+
+// ---- api/signals.js (da creare in /pages/api) ----
+
+// export default function handler(req, res) { //   res.status(200).json([ //     { //       asset: "BTC/USDT", //       tipo: "LONG", //       entry: 65500, //       stop_loss: 64500, //       take_profit: [66500, 67500, 69000], //       motivazione: "Breakout + RSI 45 + MACD positivo" //     }, //     { //       asset: "ETH/USDT", //       tipo: "SHORT", //       entry: 3500, //       stop_loss: 3550, //       take_profit: [3400, 3300], //       motivazione: "Doppio massimo + volume in calo" //     } //   ]); // }
+
