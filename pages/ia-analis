@@ -1,0 +1,8 @@
+export default function IAAnalisi() {
+  return (
+    <div className="p-8 text-white bg-gray-800">
+      <h2 className="text-2xl">Analisi Automatica AI</h2>
+      <p>Simulazione IA attiva. I segnali vengono elaborati automaticamente.</p>
+    </div>
+  );
+}
